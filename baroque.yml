@@ -1,0 +1,19 @@
+eventtypes:
+  # react on unregistered event types?
+  ignore_unregistered: true
+  pre_registered:
+    - baroque.defaults.eventtypes.GenericEventType
+    - baroque.defaults.eventtypes.StateTransitionEventType
+    - baroque.defaults.eventtypes.DataOperationEventType
+    - baroque.defaults.eventtypes.MetricEventType
+events:
+    # upon event firing, validate their JSON schema according to the eventtype?
+    - validate_schema: true
+    - persist: false
+    - persistence_provider: baroque.persistence.inmemory.DictBackend
+reactors:
+  # bubble up any exception raised by reactors during event publishing?
+  propagate_exceptions: true
+topics:
+  # register unregistered topics upon reactors binding?
+  register_on_binding: true

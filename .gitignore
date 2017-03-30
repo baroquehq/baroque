@@ -1,0 +1,15 @@
+*.pyc
+*~
+build/*
+bin/*
+dist/*
+baroque.egg-info/*
+sphinx/_build/*
+.settings/*
+.project
+.pydevproject
+.idea/*
+.tox/*
+.coverage
+.cache
+docs/_build

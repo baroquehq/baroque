@@ -1,6 +1,6 @@
 # Baroque
 
-![Baroque](https://raw.githubusercontent.com/csparpa/baroque/master/baroque.png)
+![Baroque](https://raw.githubusercontent.com/baroquehq/baroque/master/baroque.png)
 
 ## Events made easy
 Baroque is an event brokering framework with a honey-sweet interface.

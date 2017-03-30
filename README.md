@@ -37,7 +37,13 @@ Baroque is...
 
 ##  Installation
 
-Install with `pip` for your ease:
+Install with:
+
+```shell
+$ python3 setup.py install
+```
+
+... or use `pip` for your ease:
 
 ```shell
 $ pip install baroque

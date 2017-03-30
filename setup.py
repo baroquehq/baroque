@@ -2,10 +2,6 @@ import os
 from setuptools import find_packages, setup
 from baroque.utils.version import get_baroque_version_string
 
-
-with open(os.path.join(os.path.dirname(__file__), 'README.md')) as readme:
-    README = readme.read()
-
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
@@ -24,7 +20,6 @@ setup(
     license='MIT License',
     description='Baroque is an event brokering framework with a honey-sweet '
                 'interface.',
-    long_description=README,
     url='https://github.com/csparpa/baroque',
     author='Claudio Sparpaglione',
     author_email='csparpa@gmail.com',

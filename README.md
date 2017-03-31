@@ -14,7 +14,7 @@ brokering operations, in terms of API and configuration.
 
 
 ### Features in a nutshell
-  - Create **Events** as lightweight JSON containers of custom metadata, each 
+  - Create **events** as lightweight JSON containers of custom metadata, each 
     with a named type and suitable of JSON schema validation
   - **publish** events of any type and **subscribe** execution of stateless 
     callback functions (aka: **reactors**) upon events firing
@@ -37,22 +37,20 @@ Baroque is...
 
 ##  Installation
 
-Install with:
+Baroque runs on Python 3.5+
 
-```shell
-$ python3 setup.py install
-```
-
-... or use `pip` for your ease:
+Install with `pip`:
 
 ```shell
 $ pip install baroque
 ```
 
-Baroque runs on Python 3.5+
+Or install from source: clone the repository and then
+```shell
+$ python3 setup.py install
+```
 
-
-## Usage examples
+## Getting started
 ```python
 from baroque import Baroque, Reactor, EventFactory
 
@@ -80,20 +78,20 @@ brq.publish(event)
 	"owner": "me",
 	"links": [],
 	"tags": [],
-	"payload": 
-	  {"key2": "value2",
-	  "key1": "value1"},
+	"payload": {
+	   "key2": "value2",
+	   "key1": "value1"},
 	"status": "unpublished",
     ...
 }
 '''
 ```
 
-See more examples in the `samples` folder
-
 
 ## Documentation
-The library API documentation is available on Read the Docs
+  - A [guided tour through Baroque features](http://baroque.readthedocs.io/en/latest/usage.html)
+  - A few [usage scenarios](http://baroque.readthedocs.io/en/latest/examples.html)
+  - Baroque's [software API documentation](http://baroque.readthedocs.io/en/latest/baroque.html)
 
 ## License
 MIT license

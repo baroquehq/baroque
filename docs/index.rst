@@ -1,4 +1,4 @@
-Baroque API documentation
+Baroque: events made easy
 =========================
 
 Contents:
@@ -6,8 +6,8 @@ Contents:
 .. toctree::
    :maxdepth: 1
 
-   overview
    usage
+   examples
    baroque
 
 

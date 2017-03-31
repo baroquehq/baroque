@@ -36,7 +36,6 @@ class Event:
         self.status = EventStatus.UNPUBLISHED
         self.description = description
         self.payload = payload
-        self.links = set()
         self.tags = set()
         self.timestamp = None
         self.touch()
@@ -63,8 +62,7 @@ class Event:
         data = dict(id=self.id, type=self.type.json(),
                     owner=self.owner, status=self.status,
                     description=self.description, payload=self.payload,
-                    links=list(self.links), tags=list(self.tags),
-                    timestamp=ts.stringify(self.timestamp))
+                    tags=list(self.tags), timestamp=ts.stringify(self.timestamp))
         return dumps(data)
 
     def md5(self):

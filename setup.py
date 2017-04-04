@@ -11,10 +11,10 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=[
-        'jsonschema==2.6.0',
+        'jsonschema==2.6.0,<3.0',
         'pytz==2016.10',
-        'PyYAML==3.12',
-        'requests==2.9.1'
+        'PyYAML==3.12,<4.0',
+        'requests==2.9.1,<3.0'
     ],
     test_suite='tests',
     license='MIT License',

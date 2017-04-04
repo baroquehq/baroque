@@ -23,7 +23,6 @@ def test_constructor():
               owner=1234)
     assert isinstance(e.type, GenericEventType)
     assert e.id is not None
-    assert not e.links
     assert not e.tags
     assert e.status == EventStatus.UNPUBLISHED
     assert e.timestamp is not None

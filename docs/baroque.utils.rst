@@ -28,14 +28,6 @@ baroque.utils.timestamp module
     :undoc-members:
     :show-inheritance:
 
-baroque.utils.version module
-----------------------------
-
-.. automodule:: baroque.utils.version
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 
 Module contents
 ---------------

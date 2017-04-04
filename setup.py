@@ -1,13 +1,13 @@
 import os
 from setuptools import find_packages, setup
-from baroque.utils.version import get_baroque_version_string
+from baroque.constants import BAROQUE_VERSION
 
 # allow setup.py to be run from any path
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='baroque',
-    version=get_baroque_version_string(),
+    version='.'.join(map(str, BAROQUE_VERSION)),
     packages=find_packages(),
     include_package_data=True,
     install_requires=[

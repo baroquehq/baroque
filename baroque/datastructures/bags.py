@@ -90,12 +90,13 @@ class EventTypesBag:
             `list` of (:obj:`baroque.entities.eventtypes.EventType`): the event types to be added
 
         Raises:
-            `AssertionError`: when the supplied arg is not a collection or its items are not :obj:`baroque.entities.eventtypes.EventType` instances
+            `AssertionError`: when the supplied arg is not a collection or its items are not :obj:`baroque.entities.eventtypes.EventType` instances or :obj:`baroque.entities.eventtypes.EventType` subclasses 
 
         """
         assert not isinstance(eventtypes, str)
         assert isinstance(eventtypes, collections.Iterable)
-        assert all([isinstance(et, EventType) for et in eventtypes])
+        assert all([isinstance(et, EventType) or type(et) == type
+                    for et in eventtypes])
         self.types.update(set([type(et) for et in eventtypes]))
 
     def __len__(self):

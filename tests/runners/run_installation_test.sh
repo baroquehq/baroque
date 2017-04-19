@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 echo " --- Start of installation test ..."
-venv="$(date +%s)_brq_install_test"
+venv="$(readlink -f $(date +%s)_brq_install_test)"
 virtualenv "$venv" && cd "$venv" && source bin/activate
 echo " --- Created virtualenv: $venv ..."
 pip install baroque
@@ -16,5 +16,5 @@ if [ $? -ne 0 ]; then
 fi
 echo " --- Test import of library was OK ..."
 deactivate
-echo " --- End of installation test"
+rm -rf "$venv"
 exit 0

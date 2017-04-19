@@ -4,10 +4,7 @@ python:
 install:
   - pip install -r requirements/dev-requirements.txt
 script:
-  - bash run_tests.sh
-  - bash run_installation_test.sh
-  - bash run_test_yml_reading.sh
-  - bash run_samples.sh
+  - bash run_all_tests.sh
 notifications:
   email:
     on_failure: change

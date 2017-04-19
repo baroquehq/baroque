@@ -107,12 +107,6 @@ available through a factory object:
     reactor = ReactorFactory.json_webhook   # HTTP POSTs some JSON to a URL
 
 
-Event Types
------------
-
-TBD
-
-
 Events
 ------
 Events are the core concept in Baroque. An event is an object that describes
@@ -132,6 +126,7 @@ For example, this is an event of type `GenericEventType`, which is a subtype of
 
 .. code:: python
 
+    from baroque import Event, GenericEventType
     event1 = Event(GenericEventType)
     event2 = Event(GenericEventType())
 
@@ -175,3 +170,112 @@ Any event can be dumped to JSON or can provide its own MD5 hash:
 
     event.md5()
     event.json()
+
+
+Event Types
+-----------
+
+As stated before, each event must be identified by one event type. Event types
+are the way Baroque uses to:
+
+  - *convey events contents* in terms of data and structure, and *validate* them:
+    this means that datastructures (eg. payload, sections of payload, whole
+    event structure, etc.) carried by events of specific types can be validated
+    so that events that claim to be of those types but do not carry well-formed
+    data can be spot and handled with. Validation is enabled via JSON Schema.
+  - *convey events hierarchy*: you can create event types hierarchies
+
+
+You can either define custom event types or use the ones that Baroque offers
+for your convenience, which you can find in module `baroque.defaults.eventtypes`
+
+Let's start with the latter ones.
+
+You might have no need to create any events hierarchy nor to specify what data
+your events carry: in this case, it's just OK to use a `GenericEventType`, which
+is a kind of "wildcard" event type that applies no schema validation on events
+and is not included in any event types hierarchy
+
+.. code:: python
+
+    from baroque import Event, GenericEventType
+    event = Event(GenericEventType)
+
+The off-the-shelf event types include:
+
+  * `StateTransitionEventType` - models events fired on state machine transitions
+  * `DataOperationEventType` - models events fired on manipulation of data entities
+  * `MetricEventType` - models events fired on phenomena sampling or time-series variations
+
+These event types apply schema validation to events: please refer to the code
+documentation to check out the expected format for data carried by these events.
+
+In case you need to define your own event types, just subclass the base class
+`baroque.entities.eventtype.EventType` and provide the JSON schema you want
+events of your custom type to be validated against.
+
+In example, let us imagine that we want to define events of type "BabyBornEventType"
+that must contain in their payload at least two information: the name of the
+baby and the baby's birth date:
+
+.. code:: python
+
+    from baroque import EventType
+
+    class BabyBornEventType(EventType):
+        def __init__(self, owner=None):
+            EventType.__init__(
+                self,
+                '''{
+                  "$schema": "http://json-schema.org/draft-04/schema#",
+                  "type": "object",
+                  "properties": {
+                    "payload": {
+                      "type": "object",
+                      "properties": {
+                        "baby_name": {
+                          "type": ["string"]
+                        },
+                        "birth_date": {
+                          "type": ["string"]
+                        }
+                      },
+                      "required": [
+                        "baby_name",
+                        "birth_date"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "payload"
+                  ]
+                }''',
+                description='A new baby is born',
+                owner=owner)
+
+Then if we instantiate events of type `BabyBornEventType`, they must conform
+to the JSON schema that we specified on the type:
+
+.. code:: python
+
+    from baroque import Event
+
+    # this event is valid
+    valid_event = Event(BabyBornEventType,
+                        payload=dict(baby_name='Bob',
+                                     birth_date='2017-04-19'))
+
+    # this event is not valid, as it does not carry the required data
+    invalid_event = Event(BabyBornEventType,
+                          payload=dict(foo='bar'))
+
+Invalid events can result in exceptions raised when trying to publish them:
+this depends on the library configuration (please see the relevant documentation
+section). By default, Baroque validates all events schema.
+
+
+Please refer to JSON Schema specification_ for details about expressing events
+contents.
+
+
+.. _specification: http://json-schema.org

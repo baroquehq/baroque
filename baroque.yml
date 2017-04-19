@@ -7,10 +7,10 @@ eventtypes:
     - baroque.defaults.eventtypes.DataOperationEventType
     - baroque.defaults.eventtypes.MetricEventType
 events:
-    # upon event firing, validate their JSON schema according to the eventtype?
-    - validate_schema: true
-    - persist: false
-    - persistence_provider: baroque.persistence.inmemory.DictBackend
+  # upon event firing, validate their JSON schema according to the eventtype?
+  validate_schema: true
+  persist: false
+  persistence_backend: baroque.persistence.inmemory.DictBackend
 reactors:
   # bubble up any exception raised by reactors during event publishing?
   propagate_exceptions: true

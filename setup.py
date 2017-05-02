@@ -19,7 +19,7 @@ setup(
     license='MIT License',
     description='Baroque is an event brokering framework with a honey-sweet '
                 'interface.',
-    url='https://github.com/csparpa/baroque',
+    url='https://github.com/baroquehq/baroque',
     author='Claudio Sparpaglione',
     author_email='csparpa@gmail.com',
     classifiers=[

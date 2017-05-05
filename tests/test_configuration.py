@@ -110,7 +110,7 @@ def test_register_on_binding():
     cfg['topics']['register_on_binding'] = True
     brq = Baroque()
     brq.config = cfg
-    t = Topic('test-topic')
+    t = Topic('test-topic', [])
     assert len(brq.topics) == 0
     brq.on_topic_run(t, ReactorFactory.stdout())
     assert len(brq.topics) == 1

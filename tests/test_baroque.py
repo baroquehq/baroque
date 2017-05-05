@@ -247,7 +247,7 @@ def test_publish_on_topic():
 
     # trying to publish events to an unregistered topic
     with pytest.raises(UnregisteredTopicError):
-        brq.publish_on_topic(evt, Topic('unregistered'))
+        brq.publish_on_topic(evt, Topic('unregistered', []))
         pytest.fail()
 
     # using a box to keep state and make assertions

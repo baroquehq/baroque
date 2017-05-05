@@ -202,18 +202,19 @@ class TopicsRegistry:
         if topic not in self.topics:
             self.topics[topic] = list()
 
-    def new(self, name, **kwargs):
+    def new(self, name, eventtypes, **kwargs):
         """Creates a new topic, adds it to the registry and returns it.
     
         Args:
             name (str): name of the new topic
+        eventtypes (collection): the :obj:`baroque.entities.eventtype.EventType` objects that characterize the new topic
             **kwargs: positional arguments for `Topic` instantiation
     
         Returns:
             :obj:`baroque.entities.topic.Topic`
     
         """
-        topic = Topic(name, **kwargs)
+        topic = Topic(name, eventtypes, **kwargs)
         self.register(topic)
         return topic
 

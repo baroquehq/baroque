@@ -66,14 +66,14 @@ This is an example of a possible YML file contents:
     eventtypes:
       ignore_unregistered: false
       pre_registered:
-    baroque.entities.eventtype.GenericEventType
-    baroque.entities.eventtype.StateTransitionEventType
-    baroque.entities.eventtype.DataOperationEventType
-    baroque.entities.eventtype.MetricEventType
+        - baroque.entities.eventtype.GenericEventType
+        - baroque.entities.eventtype.StateTransitionEventType
+        - baroque.entities.eventtype.DataOperationEventType
+        - baroque.entities.eventtype.MetricEventType
     events:
       validate_schema: true
       persist: false
-      persistence_provider: baroque.persistence.inmemory.DictBackend
+      persistence_backend: baroque.persistence.inmemory.DictBackend
     reactors:
       propagate_exceptions: true
     topics:

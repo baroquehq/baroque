@@ -1,7 +1,6 @@
 import pytest
 from baroque.entities.topic import Topic
-from baroque.defaults.eventtypes import GenericEventType, DataOperationEventType, \
-    MetricEventType
+from baroque.defaults.eventtypes import GenericEventType, DataOperationEventType
 
 
 def test_constructor_failures():
@@ -9,28 +8,31 @@ def test_constructor_failures():
         Topic()
         pytest.fail()
     with pytest.raises(AssertionError):
-        Topic(123)
+        Topic(123, [])
         pytest.fail()
     with pytest.raises(AssertionError):
-        Topic('test', tags='abc')
+        Topic('test', None)
         pytest.fail()
     with pytest.raises(AssertionError):
-        Topic('test', eventtypes='abc')
+        Topic('test', 'abc')
         pytest.fail()
     with pytest.raises(AssertionError):
-        Topic('test', eventtypes=['abc'])
+        Topic('test', ['abc'])
+        pytest.fail()
+    with pytest.raises(AssertionError):
+        Topic('test', [], tags='abc')
         pytest.fail()
 
 
 def test_constructor():
-    t = Topic('test', description='this is a test topic', owner='me')
+    t = Topic('test', [], description='this is a test topic', owner='me')
     assert t.id is not None
     assert len(t.eventtypes) == 0
     assert t.owner is not None
     assert len(t.tags) == 0
     assert t.timestamp is not None
     ets = [GenericEventType(), DataOperationEventType()]
-    t = Topic('test', eventtypes=ets,
+    t = Topic('test', ets,
               description='this is a test topic', owner='me',
               tags=['x', 'y'])
     assert len(t.eventtypes) == 2
@@ -38,4 +40,4 @@ def test_constructor():
 
 
 def test_print():
-    print(Topic('test'))
+    print(Topic('test', []))

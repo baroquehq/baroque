@@ -39,15 +39,17 @@ Baroque is...
 
 Baroque runs on Python 3.5+
 
-Install with `pip`:
+Install the latest stable version with `pip`:
 
 ```shell
 $ pip install baroque
 ```
 
-Or install from source: clone the repository and then
+As Baroque is currently under heavy development, its API may change without
+notice: fetch the latest modifications on the development branch with:
+
 ```shell
-$ python3 setup.py install
+$ pip install git+https://github.com/baroquehq/baroque.git@dev
 ```
 
 ## Getting started

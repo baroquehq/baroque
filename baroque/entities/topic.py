@@ -14,7 +14,7 @@ class Topic:
 
     Args:
         name (str): the name of this topic
-        eventtypes (collection, optional): the :obj:`baroque.entities.eventtype.EventType` objects that characterize this topic
+        eventtypes (collection): the :obj:`baroque.entities.eventtype.EventType` objects that characterize this topic
         description (str, optional): a description of this topic
         owner (str, optional): the owner of this topic
         tags (set, optional): the `set` of tags that describe this topic
@@ -24,12 +24,13 @@ class Topic:
 
     """
 
-    def __init__(self, name, eventtypes=None, description=None, owner=None,
+    def __init__(self, name, eventtypes, description=None, owner=None,
                  tags=None):
         assert name is not None
         assert isinstance(name, str)
         self.name = name
-        if eventtypes is not None:
+        assert eventtypes is not None
+        if len(eventtypes) != 0:
             self.types = EventTypesBag(eventtypes)
         else:
             self.types = EventTypesBag()

@@ -1,7 +1,6 @@
 import pytest
 from baroque.entities.event import Event
 from baroque.entities.topic import Topic
-from baroque.entities.reactor import Reactor
 from baroque.defaults.eventtypes import MetricEventType, GenericEventType
 from baroque.defaults.reactors import ReactorFactory
 from baroque.datastructures.registries import TopicsRegistry
@@ -18,7 +17,7 @@ def test_register_failing():
 
 def test_register():
     r = TopicsRegistry()
-    t = Topic('test')
+    t = Topic('test', [])
     r.register(t)
     assert r.count() == 1
 
@@ -27,14 +26,14 @@ def test_register():
     assert r.count() == 1
 
     # ... but a new one, will
-    t2 = Topic('test2')
+    t2 = Topic('test2', [])
     r.register(t2)
     assert r.count() == 2
 
 
 def test_new():
     r = TopicsRegistry()
-    topic = r.new('test', eventtypes=[GenericEventType(), MetricEventType()],
+    topic = r.new('test', [GenericEventType(), MetricEventType()],
                   description='this is a test topic', owner='me',
                   tags=['aaa', 'bbb', 'ccc'])
     assert isinstance(topic, Topic)
@@ -51,11 +50,11 @@ def test_new():
 
 def test_count():
     r = TopicsRegistry()
-    t1 = Topic('test1')
+    t1 = Topic('test1', [])
     r.register(t1)
     assert r.count() == 1
-    t2 = Topic('test2')
-    t3 = Topic('test3')
+    t2 = Topic('test2', [])
+    t3 = Topic('test3', [])
     r.register(t2)
     r.register(t3)
     assert r.count() == 3
@@ -63,8 +62,8 @@ def test_count():
 
 def test_remove():
     r = TopicsRegistry()
-    t1 = Topic('test1')
-    t2 = Topic('test2')
+    t1 = Topic('test1', [])
+    t2 = Topic('test2', [])
     r.register(t1)
     r.register(t2)
     assert len(r) == 2
@@ -75,8 +74,8 @@ def test_remove():
 
 def test_remove_all():
     r = TopicsRegistry()
-    t1 = Topic('test1')
-    t2 = Topic('test2')
+    t1 = Topic('test1', [])
+    t2 = Topic('test2', [])
     r.register(t1)
     r.register(t2)
     assert len(r) == 2
@@ -86,9 +85,9 @@ def test_remove_all():
 
 def test_of():
     r = TopicsRegistry()
-    t1 = Topic('test1', owner='me')
-    t2 = Topic('test2', owner='you')
-    t3 = Topic('test3', owner='me')
+    t1 = Topic('test1', [], owner='me')
+    t2 = Topic('test2', [], owner='you')
+    t3 = Topic('test3', [], owner='me')
     assert len(r.of('me')) == 0
     assert len(r.of('you')) == 0
     r.register(t1)
@@ -108,9 +107,9 @@ def test_of():
 
 def test_with_id():
     r = TopicsRegistry()
-    t1 = Topic('test1')
-    t2 = Topic('test2')
-    t3 = Topic('test3')
+    t1 = Topic('test1', [])
+    t2 = Topic('test2', [])
+    t3 = Topic('test3', [])
     r.register(t1)
     r.register(t2)
     r.register(t3)
@@ -127,9 +126,9 @@ def test_with_id():
 
 def test_with_name():
     r = TopicsRegistry()
-    t1 = Topic('test1')
-    t2 = Topic('test2')
-    t3 = Topic('test3')
+    t1 = Topic('test1', [])
+    t2 = Topic('test2', [])
+    t3 = Topic('test3', [])
     r.register(t1)
     r.register(t2)
     r.register(t3)
@@ -145,9 +144,9 @@ def test_with_name():
 
 def test_with_tags():
     r = TopicsRegistry()
-    t1 = Topic('test1', tags=['aaa'])
-    t2 = Topic('test2', tags=['bbb', 'ccc'])
-    t3 = Topic('test3', tags=['aaa', 'ccc', 'ddd'])
+    t1 = Topic('test1', [], tags=['aaa'])
+    t2 = Topic('test2', [], tags=['bbb', 'ccc'])
+    t3 = Topic('test3', [], tags=['aaa', 'ccc', 'ddd'])
     r.register(t1)
     r.register(t2)
     r.register(t3)
@@ -175,7 +174,7 @@ def test_with_tags():
 
 def test_run():
     reg = TopicsRegistry()
-    t = Topic('test-topic')
+    t = Topic('test-topic', [])
     r1 = ReactorFactory.stdout()
 
     # failures
@@ -222,7 +221,7 @@ def test_run():
 
 def test_publish_on_topic():
     reg = TopicsRegistry()
-    t = Topic('test', eventtypes=[GenericEventType(), MetricEventType()])
+    t = Topic('test', [GenericEventType(), MetricEventType()])
     evt = Event(MetricEventType())
 
     # failures
@@ -244,7 +243,7 @@ def test_publish_on_topic():
             self.called = True
 
     # publish an event on a topic that doesn't have its eventtype registered
-    t = Topic('aaa', eventtypes=[GenericEventType()])
+    t = Topic('aaa', [GenericEventType()])
     evt = Event(MetricEventType())
     box = Box()
     r = ReactorFactory.call_function(box, 'mark_called')
@@ -255,7 +254,7 @@ def test_publish_on_topic():
 
     # publish an event on a topic that has its eventtype registered
     reg = TopicsRegistry()
-    t = Topic('aaa', eventtypes=[MetricEventType()])
+    t = Topic('aaa', [MetricEventType()])
     box = Box()
     r = ReactorFactory.call_function(box, 'mark_called')
     reg.register(t)
@@ -267,16 +266,16 @@ def test_publish_on_topic():
 
 def test_magic_methods():
     r = TopicsRegistry()
-    t1 = Topic('test1')
+    t1 = Topic('test1', [])
     r.register(t1)
     assert len(r) == 1
 
     assert t1 in r
-    t2 = Topic('test2')
+    t2 = Topic('test2', [])
     assert t2 not in r
 
-    r.register(Topic('test2'))
-    r.register(Topic('test3'))
+    r.register(Topic('test2', []))
+    r.register(Topic('test3', []))
     for _ in r:
         pass
 

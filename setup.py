@@ -6,7 +6,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='baroque',
-    version='0.0.2',
+    version='0.0.3',
     packages=find_packages(),
     include_package_data=True,
     install_requires=[
@@ -19,7 +19,7 @@ setup(
     license='MIT License',
     description='Baroque is an event brokering framework with a honey-sweet '
                 'interface.',
-    url='https://github.com/csparpa/baroque',
+    url='https://github.com/baroquehq/baroque',
     author='Claudio Sparpaglione',
     author_email='csparpa@gmail.com',
     classifiers=[

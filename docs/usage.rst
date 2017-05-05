@@ -279,3 +279,102 @@ contents.
 
 
 .. _specification: http://json-schema.org
+
+
+Topics
+------
+
+Topics are channels for notifying multiple event consumers at once that events
+of specific types have been published; they're a way to decouple producers
+of events from their consumers.
+
+When you crete a topic you need to specify what event types it is bound to
+(passing in an iterable of either `EventType` instances or subclasses); a topic
+can be bound to one or more event types. Topic must have a name and can optionally have an owner,
+a description and a set of tags (strings) you can use later to search for the topic.
+Each topic also gets an unique ID:
+
+.. code:: python
+
+    from baroque import Topic
+    family_event_types = [ClaudioRelativesEventType(), ClaudioEventType()]
+    topic = Topic('my-family-events',
+                  family_event_types,
+                  description='all events about me and my family will be published here',
+                  owner='me',
+                  tags=['claudio', 'events'])
+
+
+To make a topic useful, you must register it to the Baroque broker instance:
+
+.. code:: python
+
+    from baroque import Baroque
+    brq = Baroque()
+    brq.topics.register(topic)
+
+
+
+A useful shortcut for creating topics *and* registering them on the broker is
+the following:
+
+.. code:: python
+
+    from baroque import Baroque
+    brq = Baroque()
+    family_event_types = [ClaudioRelativesEventType(), ClaudioEventType()]
+    topic = brq.topics.new('my-family-events',
+                           family_event_types,
+                           description='all events about me and my family will be published here',
+                           owner='me',
+                           tags=['claudio', 'events'])
+
+
+Event consumers *subscribe* to the topic by passing to the broker instance
+both a reference to that topic and the reactor object they want to be executed
+whenever *any* events of the types bound to the topic will be published on the
+broker:
+
+.. code:: python
+
+    from baroque import Baroque, ReactorFactory
+    brq = Baroque()
+    reactor = ReactorFactory.stdout
+    brq.on_topic_run(topic, reactor)
+
+
+If the topic is not registered on the broker instance yet, this will be automatically
+registered. Baroque can be configured to raise an `UnregisteredTopicError` instead.
+
+Subscribers can leverage Baroque topics search features to look for interesting
+topics:
+
+.. code:: python
+
+    from baroque import Baroque
+    brq = Baroque()
+    brq.topics.of('somebody')       # finds all topics owned by someone
+    brq.with_id('d3d5beb8')         # finds the topic with the specified ID
+    brq.with_name('my-topic')       # finds the topic with the specified name
+    brq.with_tags(['tag1', 'tag2']) # finds all topics marked with the specified tags
+
+
+Event producers that want their events to be published on a topic must do
+it via the broker; this will trigger execution of all reactors that were bound
+to the topic:
+
+.. code:: python
+
+    from baroque import Baroque, Event
+    brq = Baroque()
+
+    claudio_event = Event(ClaudioEventType())
+    brq.publish_on_topic(claudio_event, claudio_event)
+
+    cousin_event = Event(ClaudioRelativesEventType())
+    brq.publish_on_topic(cousin_event, claudio_event)
+
+
+The Baroque broker
+------------------
+TBD
